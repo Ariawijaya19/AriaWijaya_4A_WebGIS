@@ -74,4 +74,6 @@ L.control.coordinates({
     labelTemplateLng:"Longitude: {x}" 
 }).addTo(map);
 
+var zoom_bar = new L.Control.Zoombar({position:'topleft'}).addTo(map);
+
 </script>
