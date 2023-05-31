@@ -19,9 +19,21 @@ var Esri_NatGeoWorldMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/re
 	maxZoom: 16
 });
 
+var GoogleMaps = new L.TileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', { opacity: 1.0,
+attribution: 'Latihan Web GIS'
+});
+var GoogleRoads = new L.TileLayer('https://mt1.google.com/vt/lyrs=h&x={x}&y={y}&z={z}',{
+opacity: 1.0,
+attribution: 'Latihan Web GIS'
+});
+
 var baseLayers = {
 'Google Satellite Hybrid': GoogleSatelliteHybrid,
-'Esri_NatGeoWorldMap':Esri_NatGeoWorldMap};
+'Esri_NatGeoWorldMap':Esri_NatGeoWorldMap,
+'GoogleMaps': GoogleMaps,
+'GoogleRoads': GoogleRoads
+};
+
 
 var overlayLayers = {}
 L.control.layers(baseLayers, overlayLayers, {collapsed:true}).addTo(map);
