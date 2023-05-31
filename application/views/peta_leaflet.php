@@ -14,7 +14,15 @@ maxZoom: 22,
 attribution: 'Latihan Web GIS'
 }).addTo(map);
 
-var baseLayers = {'Google Satellite Hybrid': GoogleSatelliteHybrid};
+var Esri_NatGeoWorldMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
+	maxZoom: 16
+});
+
+var baseLayers = {
+'Google Satellite Hybrid': GoogleSatelliteHybrid,
+'Esri_NatGeoWorldMap':Esri_NatGeoWorldMap};
+
 var overlayLayers = {}
 L.control.layers(baseLayers, overlayLayers, {collapsed:true}).addTo(map);
 
@@ -73,24 +81,15 @@ L.control.coordinates({
     labelTemplateLat:"Latitude: {y}", 
     labelTemplateLng:"Longitude: {x}" 
 }).addTo(map);
-
-var zoom_bar = new L.Control.Zoombar({position:'topleft'}).addTo(map);
-
-L.control.coordinates({
-position:"bottomleft",
-decimals:2,
-decimalSeperator:",",
-labelTemplateLat:"Latitude: {y}",
-labelTemplateLng:"Longitude: {x}"
-}).addTo(map);
 /* scale */
 L.control.scale({metric: true, position: "bottomleft"}).addTo(map);
 
 var north = L.control({position: "bottomleft"});
 north.onAdd = function(map) {
 var div = L.DomUtil.create("div", "info legend");
-div.innerHTML = '<img src="<?=base_url()?>assets/upi.png"style=width:200px;>';
+div.innerHTML = '<img src="<?=base_url()?>assets/arahmataangin.png"style=width:200px;>';
 return div; }
 north.addTo(map);
+
 
 </script>
