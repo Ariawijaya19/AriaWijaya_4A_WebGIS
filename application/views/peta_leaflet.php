@@ -2,6 +2,10 @@
 <div id="map" style="width: 100%; height: 530px; color:black;"></div>
 </div>
 <script>
+
+var prov = new L.LayerGroup();
+var faskes = new L.LayerGroup();
+
 var map = L.map('map', {
 center: [-1.7912604466772375, 116.42311966554416],
 zoom: 5,
@@ -34,9 +38,17 @@ var baseLayers = {
 'GoogleRoads': GoogleRoads
 };
 
+var groupedOverlays = {
+"Peta Dasar":{'Ibu Kota Provinsi' :prov,
+},
+"Peta Khusus":{
+'Fasilitas Kesehatan' :faskes
+}
+};
+
 
 var overlayLayers = {}
-L.control.layers(baseLayers, overlayLayers, {collapsed:true}).addTo(map);
+L.control.groupedLayers(baseLayers, groupedOverlays).addTo(map);
 
 var
 osmUrl='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
@@ -102,6 +114,66 @@ var div = L.DomUtil.create("div", "info legend");
 div.innerHTML = '<img src="<?=base_url()?>assets/arahmataangin.png"style=width:200px;>';
 return div; }
 north.addTo(map);
+
+$.getJSON("<?=base_url()?>assets/provinsi.geojson",function(data){
+var ratIcon = L.icon({
+iconUrl: '<?=base_url()?>assets/pngegg.png',
+iconSize: [12,10]
+});
+L.geoJson(data,{
+pointToLayer: function(feature,latlng){
+var marker = L.marker(latlng,{icon: ratIcon});
+marker.bindPopup(feature.properties.CITY_NAME);
+return marker;
+}
+}).addTo(prov);
+});
+
+$.getJSON("<?=base_url()?>assets/rsu.geojson",function(data){
+
+var ratIcon = L.icon({
+iconUrl: '<?=base_url()?>assets/mark3.png',
+iconSize: [12,10]
+});
+L.geoJson(data,{
+pointToLayer: function(feature,latlng){
+var marker = L.marker(latlng,{icon: ratIcon});
+marker.bindPopup(feature.properties.NAMOBJ);
+return marker;
+}
+}).addTo(faskes);
+});
+
+$.getJSON("<?=base_url()?>assets/puskesmas.geojson",function(data){
+
+var ratIcon = L.icon({
+iconUrl: '<?=base_url()?>assets/mark2.png',
+iconSize: [12,10]
+});
+L.geoJson(data,{
+pointToLayer: function(feature,latlng){
+var marker = L.marker(latlng,{icon: ratIcon});
+marker.bindPopup(feature.properties.NAMOBJ);
+return marker;
+}
+}).addTo(faskes);
+});
+
+$.getJSON("<?=base_url()?>assets/poliklinik.geojson",function(data){
+
+var ratIcon = L.icon({
+iconUrl: '<?=base_url()?>assets/mark1.png',
+iconSize: [12,10]
+});
+L.geoJson(data,{
+pointToLayer: function(feature,latlng){
+var marker = L.marker(latlng,{icon: ratIcon});
+marker.bindPopup(feature.properties.NAMOBJ);
+return marker;
+}
+}).addTo(faskes);
+});
+
 
 
 </script>
